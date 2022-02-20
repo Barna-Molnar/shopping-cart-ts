@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import styled from 'styled-components';
 import { Button } from '@material-ui/core';
 import { CartItemType } from '../App'
@@ -9,7 +9,23 @@ export interface CartItemProps {
     removeFromCart: (id: number) => void
 };
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+text-align: center;
+.information {
+
+    display: flex;
+    justify-content: space-between;
+}
+.buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+img {
+    width: 150px;
+    object-fit: contain;
+}
+`;
 
 const CartItem: FC<CartItemProps> = ({ item, addToCart, removeFromCart }) => {
 
@@ -30,15 +46,16 @@ const CartItem: FC<CartItemProps> = ({ item, addToCart, removeFromCart }) => {
                     variant='contained'
                     onClick={() => removeFromCart(item.id)}
                 >
-                    +
+                    -
                 </Button>
+                <p>{item.amount}</p>
                 <Button
                     size='small'
                     disableElevation
                     variant='contained'
                     onClick={() => addToCart(item)}
                 >
-                    -
+                    +
                 </Button>
             </div>
             <img src={item.image} alt={item.title} />

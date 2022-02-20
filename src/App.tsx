@@ -57,8 +57,21 @@ const App = () => {
       return [...prev, { ...clickedItem, amount: 1 }]
     })
   }
-  const handleRemoveFromCart = () => {
-    return null
+  const handleRemoveFromCart = (id: number) => {
+    setCartItems(prev => {
+
+      const isAmountOne = prev.find(item => item.id === id)?.amount === 1
+
+      if (isAmountOne) {
+        return prev.filter(item => item.id !== id)
+      }
+
+      return prev.map(item => {
+        return item.id === id
+          ? { ...item, amount: item.amount - 1 }
+          : item
+      })
+    })
   }
 
   if (isLoading) return <LinearProgress />
