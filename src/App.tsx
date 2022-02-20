@@ -7,8 +7,9 @@ import Grid from '@material-ui/core/Grid'
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart'
 import Badge from '@material-ui/core/Badge'
 import Item from './Item/Item'
+import Cart from './Cart/Cart'
 
-import { Wrapper } from './App.styles'
+import { Wrapper, StyledButton } from './App.styles'
 
 export type CartItemType = {
   id: number;
@@ -32,15 +33,18 @@ const getProducts = async (): Promise<CartItemType[]> => {
 
 const App = () => {
 
+  const [isCartOpen, setIsCartOpen] = useState(false)
+  const [cartItems, setCartItems] = useState<CartItemType[]>([])
+
   const { data, isLoading, error } = useQuery<CartItemType[]>('products', getProducts)
 
-  const getTotalItems = () => {
-    return null
+  const getTotalItems = (items: CartItemType[]) => {
+    return items.reduce((acc: number, item) => acc + item.amount, 0)
   }
   const handleAddToCart = (clickedItem: CartItemType) => {
     return null
   }
-  const handleRemovesFromCart = () => {
+  const handleRemoveFromCart = () => {
     return null
   }
 
@@ -50,6 +54,18 @@ const App = () => {
 
   return (
     <Wrapper>
+      <Drawer anchor='right' open={isCartOpen} onClose={() => setIsCartOpen(false)}>
+        <Cart
+          cartItems={cartItems}
+          addToCart={handleAddToCart}
+          removeFromCart={handleRemoveFromCart} />
+      </Drawer>
+      <StyledButton onClick={() => setIsCartOpen(true)} >
+        <Badge badgeContent={getTotalItems(cartItems)} color='error'>
+          <AddShoppingCartIcon />
+        </Badge>
+
+      </StyledButton>
       <Grid container spacing={3}>
         {data?.map((item) => (
           <Grid item key={item.id} xs={12} sm={4}>
