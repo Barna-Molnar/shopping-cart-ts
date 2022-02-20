@@ -9,14 +9,40 @@ export interface CartItemProps {
     removeFromCart: (id: number) => void
 };
 
-const DIV = styled.div``;
+const Wrapper = styled.div``;
 
-const CartItem: FC<CartItemProps> = (props) => {
+const CartItem: FC<CartItemProps> = ({ item, addToCart, removeFromCart }) => {
 
     return (
-        <DIV>
+        <Wrapper>
+            <div>
+                <h3>{item.title}</h3>
+            </div>
+            <div className="information">
+                <p>Price ${item.price}</p>
+                <p>Total: ${(item.amount * item.price).toFixed(2)}</p>
 
-        </DIV>
+            </div>
+            <div className="buttons">
+                <Button
+                    size='small'
+                    disableElevation
+                    variant='contained'
+                    onClick={() => removeFromCart(item.id)}
+                >
+                    +
+                </Button>
+                <Button
+                    size='small'
+                    disableElevation
+                    variant='contained'
+                    onClick={() => addToCart(item)}
+                >
+                    -
+                </Button>
+            </div>
+            <img src={item.image} alt={item.title} />
+        </Wrapper>
     );
 };
 
