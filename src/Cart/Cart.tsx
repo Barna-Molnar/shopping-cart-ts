@@ -30,6 +30,9 @@ const Cart: FC<CartProps> = ({ cartItems, addToCart, removeFromCart }) => {
                     removeFromCart={removeFromCart}
                 />
             )))}
+            <h2>Total: ${(cartItems.reduce((acc: number, item): number => {
+                return acc + (item.price * item.amount)
+            }, 0)).toFixed(3)}</h2>
         </Wrapper>
     );
 };
